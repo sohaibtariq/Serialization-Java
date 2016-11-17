@@ -15,7 +15,7 @@ import java.util.logging.Logger;
  * @author Fahad Satti
  */
 public class ToyStopInventoryManagementSystem {
-    ToyStopService tsService = new ToyStopService();
+    public ToyStopService tsService = new ToyStopService();
     public void init(){
         
         tsService.initEmployees();
@@ -36,7 +36,7 @@ public class ToyStopInventoryManagementSystem {
          out.close();
          fileOut.close();
          System.out.printf("Serialized data is saved in data.ser");
-      }catch(IOException ex) {
+         }catch(IOException ex) {
          ex.printStackTrace();
       }
         
@@ -51,9 +51,10 @@ public class ToyStopInventoryManagementSystem {
          ts = (ToyStopService) in.readObject();
          in.close();
          fileIn.close();
-        }catch(IOException ex) {
+         System.out.printf("Serialized data being read");
+         }catch(IOException ex) {
          ex.printStackTrace();
-        }   catch (ClassNotFoundException ex) {
+         }   catch (ClassNotFoundException ex) {
             Logger.getLogger(ToyStopInventoryManagementSystem.class.getName()).log(Level.SEVERE, null, ex);
         }
        return ts;
@@ -65,6 +66,9 @@ public class ToyStopInventoryManagementSystem {
         tsims.init();
         
         tsims.saveData(tsims.tsService); 
+
+//comment this part to skip serialization
+//////////////////////////////////////////////////////////////
         
         for (int i=0; i<60; i++){  // run for 60 days
         
@@ -78,55 +82,45 @@ public class ToyStopInventoryManagementSystem {
             tsims.saveData(tsims.tsService);
         }
         tsims.printAll();
-          Scanner reader = new Scanner(System.in);
+        Scanner reader = new Scanner(System.in);
           
-          
-          while (true){ 
-                tsims.showMenu();
-                int n = reader.nextInt();
-                
-                if (n == 1){
-                tsims.printAll();
-                }
-                else if( n==2){
-                  int newStore = tsims.tsService.addStore();
-                  System.out.println("Store created with UID:"+newStore);
+////////////////////////////////////////          
+ 
+// MENU IMPLEMENTATION
+        while (true){ 
+            tsims.showMenu();
+            int n = reader.nextInt();
 
-                }
-                else if( n==3){
-                int newEmployee = tsims.tsService.addEmployee();
-                System.out.println("Employee added with UID:"+newEmployee);
-                }
-                else if( n==4){
-                int newToy = tsims.tsService.addToy();
-                System.out.println("Toy added with UID:"+newToy);
-               
+            if (n == 1){
+            tsims.printAll();
+            }
+            else if( n==2){
+              int newStore = tsims.tsService.addStore();
+              System.out.println("Store created with UID:"+newStore);
 
-                }
-                else if( n==0){
-                tsims.saveData(tsims.tsService);
-                }
-                else if(n==10){
-                System.out.println("Exiting");
-                break;
-                }
-                
-            }      
+            }
+            else if( n==3){
+            int newEmployee = tsims.tsService.addEmployee();
+            System.out.println("Employee added with UID:"+newEmployee);
+            }
+            else if( n==4){
+            int newToy = tsims.tsService.addToy();
+            System.out.println("Toy added with UID:"+newToy);
 
-        }
-        //load previous data
-        //tsims.loadData();
-        
-        //tsims.showMenu();
-          
+
+            }
+            else if( n==0){
+            tsims.saveData(tsims.tsService);
+            }
+            else if(n==10){
+            System.out.println("Exiting");
+            break;
+            }
+
+        }      
+
+     }
     
-
-
-    
-//    private void loadData() {
-////        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-////    }
-
     private void showMenu() {
         System.out.println("");
         System.out.println("Welcome to Toy Stop Inventory Management System");
@@ -138,7 +132,7 @@ public class ToyStopInventoryManagementSystem {
         System.out.println("Enter 10 to exit");
     }
 
-    private void printAll() {
+    public void printAll() {
         System.out.println(this.tsService.stores);
     }
     
