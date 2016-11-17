@@ -22,7 +22,7 @@ public class UnitTest {
     
     public UnitTest() {
     }
-    
+// Test to ensure that serialization and deserilaization are both occuring properly    
     @Test
     public void testSerialization(){
         ToyStopInventoryManagementSystem tsims = new ToyStopInventoryManagementSystem();
